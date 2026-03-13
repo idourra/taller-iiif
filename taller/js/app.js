@@ -781,12 +781,116 @@ function loadInteropMirador(manifestUrls) {
 }
 
 // ─── Navigation active state ───
-function initNav() {
-    const links = document.querySelectorAll('nav a.nav-link');
-    const sections = [...links].map(l => document.querySelector(l.getAttribute('href'))).filter(Boolean);
+const TAB_SUB_LINKS = {
+    'tab-image-api': [
+        { href: '#anatomia', label: 'URL' },
+        { href: '#builder', label: 'Constructor' },
+        { href: '#regiones', label: 'Regiones' },
+        { href: '#tamanos', label: 'Tamaños' },
+        { href: '#rotacion', label: 'Rotación' },
+        { href: '#calidad', label: 'Calidad' },
+        { href: '#info', label: 'info.json' },
+        { href: '#zoom', label: 'Zoom' },
+        { href: '#visor', label: 'Visor' },
+        { href: '#comparar', label: 'Comparar' },
+        { href: '#galeria', label: 'Galería' },
+    ],
+    'tab-presentation': [
+        { href: '#presentacion', label: 'Conceptos' },
+        { href: '#manifiestos', label: 'Manifiestos' },
+        { href: '#crud', label: 'Editor' },
+        { href: '#mirador', label: 'Mirador' },
+        { href: '#anotaciones', label: 'Anotaciones' },
+    ],
+    'tab-search': [
+        { href: '#busqueda', label: 'Búsqueda' },
+    ],
+    'tab-interop': [
+        { href: '#interop', label: 'Interoperabilidad' },
+    ],
+    'tab-ohc': [
+        { href: '#ohc', label: 'OHC' },
+    ],
+};
 
+// Track which tabs have been initialized
+const initializedTabs = new Set(['tab-image-api']);
+
+function initMainTabs() {
+    const buttons = document.querySelectorAll('.main-tab-btn');
+    const panels = document.querySelectorAll('.main-tab-panel');
+
+    buttons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const targetId = btn.dataset.panel;
+
+            // Update buttons
+            buttons.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            // Update panels
+            panels.forEach(p => p.classList.remove('active'));
+            const target = document.getElementById(targetId);
+            if (target) target.classList.add('active');
+
+            // Update sub-nav
+            updateSubNav(targetId);
+
+            // Lazy-init viewers for the tab if needed
+            lazyInitTab(targetId);
+
+            // Scroll to top of content
+            window.scrollTo({ top: document.querySelector('.hero').offsetHeight, behavior: 'smooth' });
+        });
+    });
+
+    // Initial sub-nav
+    updateSubNav('tab-image-api');
+}
+
+function updateSubNav(tabId) {
+    const subNav = document.getElementById('nav-sub');
+    if (!subNav) return;
+
+    const links = TAB_SUB_LINKS[tabId] || [];
+    subNav.innerHTML = links.map(l =>
+        `<a href="${l.href}" class="nav-sub-link">${l.label}</a>`
+    ).join('');
+}
+
+function lazyInitTab(tabId) {
+    if (initializedTabs.has(tabId)) return;
+    initializedTabs.add(tabId);
+
+    switch (tabId) {
+        case 'tab-presentation':
+            initManifestExplorer();
+            initMirador();
+            initCrudEditor();
+            break;
+        case 'tab-search':
+            initContentSearch();
+            break;
+        case 'tab-interop':
+            initInteropSection();
+            break;
+        case 'tab-ohc':
+            initOhcSection();
+            break;
+    }
+}
+
+function initNav() {
+    const subNav = document.getElementById('nav-sub');
+    if (!subNav) return;
+
+    // Scroll-based active state for sub-nav links
     function update() {
-        const y = window.scrollY + 80;
+        const links = subNav.querySelectorAll('a');
+        const sections = [...links].map(l => document.querySelector(l.getAttribute('href'))).filter(Boolean);
+        if (sections.length === 0) return;
+
+        const y = window.scrollY + 100;
         let current = sections[0];
         for (const s of sections) {
             if (s.offsetTop <= y) current = s;
@@ -1873,6 +1977,12 @@ function escapeHtml(str) {
 
 // ─── Boot ───
 document.addEventListener('DOMContentLoaded', () => {
+    // Always init
+    initMainTabs();
+    initNav();
+    initTabs();
+
+    // Image API tab (active by default)
     initUrlAnatomy();
     initUrlBuilder();
     initRegionExplorer();
@@ -1884,12 +1994,6 @@ document.addEventListener('DOMContentLoaded', () => {
     initMainViewer();
     initSideBySideViewer();
     initGallery();
-    initManifestExplorer();
-    initMirador();
-    initCrudEditor();
-    initInteropSection();
-    initContentSearch();
-    initOhcSection();
-    initNav();
-    initTabs();
+
+    // Other tabs are lazy-initialized when first opened
 });

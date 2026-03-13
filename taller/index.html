@@ -14,27 +14,13 @@
 <nav>
     <div class="nav-inner">
         <span class="logo">📐 Taller IIIF</span>
-        <a class="nav-link active" href="#intro">Intro</a>
-        <a class="nav-link" href="#anatomia">URL</a>
-        <a class="nav-link" href="#builder">Constructor</a>
-        <a class="nav-link" href="#regiones">Regiones</a>
-        <a class="nav-link" href="#tamanos">Tamaños</a>
-        <a class="nav-link" href="#rotacion">Rotación</a>
-        <a class="nav-link" href="#calidad">Calidad</a>
-        <a class="nav-link" href="#info">info.json</a>
-        <a class="nav-link" href="#zoom">Zoom</a>
-        <a class="nav-link" href="#visor">Visor</a>
-        <a class="nav-link" href="#comparar">Comparar</a>
-        <a class="nav-link" href="#presentacion">Presentación</a>
-        <a class="nav-link" href="#manifiestos">Manifiestos</a>
-        <a class="nav-link" href="#crud">Editor</a>
-        <a class="nav-link" href="#mirador">Mirador</a>
-        <a class="nav-link" href="#anotaciones">Anotaciones</a>
-        <a class="nav-link" href="#interop">Interoperabilidad</a>
-        <a class="nav-link" href="#galeria">Galería</a>
-        <a class="nav-link" href="#busqueda">🔎 Búsqueda</a>
-        <a class="nav-link" href="#ohc">🇨🇺 OHC</a>
+        <button class="main-tab-btn active" data-panel="tab-image-api">🖼️ Image API</button>
+        <button class="main-tab-btn" data-panel="tab-presentation">📖 Presentation API</button>
+        <button class="main-tab-btn" data-panel="tab-search">🔎 Content Search</button>
+        <button class="main-tab-btn" data-panel="tab-interop">🌍 Internacional</button>
+        <button class="main-tab-btn" data-panel="tab-ohc">🇨🇺 OHC</button>
     </div>
+    <div class="nav-sub" id="nav-sub"></div>
 </nav>
 
 <!-- ════════════════════ HERO ════════════════════ -->
@@ -79,6 +65,9 @@
         </div>
     </div>
 </section>
+
+<!-- ════════════════════ PANELES DE PESTAÑAS ════════════════════ -->
+<div id="tab-image-api" class="main-tab-panel active">
 
 <!-- ════════════════════ 2. ANATOMÍA DE LA URL ════════════════════ -->
 <section id="anatomia">
@@ -407,6 +396,20 @@ Nivel N:  resolución completa, solo carga los tiles visibles</pre>
         </div>
     </div>
 </section>
+
+<!-- ════════════════════ GALERÍA (en Image API) ════════════════════ -->
+<section id="galeria">
+    <h2>Galería de imágenes <span class="badge">Colección</span></h2>
+    <p class="desc">Todas las imágenes disponibles en el servidor. Click en una para ver su info.json.</p>
+
+    <div class="grid-4" id="gallery-grid" style="grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));">
+        <!-- Populated by JS -->
+    </div>
+</section>
+
+</div><!-- /tab-image-api -->
+
+<div id="tab-presentation" class="main-tab-panel">
 
 <!-- ════════════════════ 12. PRESENTATION API ════════════════════ -->
 <section id="presentacion">
@@ -787,6 +790,10 @@ Nivel N:  resolución completa, solo carga los tiles visibles</pre>
     </div>
 </section>
 
+</div><!-- /tab-presentation -->
+
+<div id="tab-interop" class="main-tab-panel">
+
 <!-- ════════════════════ 16. INTEROPERABILIDAD ════════════════════ -->
 <section id="interop">
     <h2>Interoperabilidad en acción <span class="badge">El poder de IIIF</span></h2>
@@ -856,15 +863,9 @@ Nivel N:  resolución completa, solo carga los tiles visibles</pre>
     </div>
 </section>
 
-<!-- ════════════════════ 17. GALERÍA ════════════════════ -->
-<section id="galeria">
-    <h2>Galería de imágenes <span class="badge">Colección</span></h2>
-    <p class="desc">Todas las imágenes disponibles en el servidor. Click en una para ver su info.json.</p>
+</div><!-- /tab-interop -->
 
-    <div class="grid-4" id="gallery-grid" style="grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));">
-        <!-- Populated by JS -->
-    </div>
-</section>
+<div id="tab-search" class="main-tab-panel">
 
 <!-- ════════════════════ 18. CONTENT SEARCH API ════════════════════ -->
 <section id="busqueda">
@@ -1001,6 +1002,10 @@ Nivel N:  resolución completa, solo carga los tiles visibles</pre>
         </div>
     </div>
 </section>
+
+</div><!-- /tab-search -->
+
+<div id="tab-ohc" class="main-tab-panel">
 
 <!-- ════════════════════ 19. CASO PRÁCTICO: OHC ════════════════════ -->
 <section id="ohc">
@@ -1211,6 +1216,8 @@ Nivel N:  resolución completa, solo carga los tiles visibles</pre>
         </div>
     </div>
 </section>
+
+</div><!-- /tab-ohc -->
 
 <!-- ════════════════════ FOOTER ════════════════════ -->
 <footer>

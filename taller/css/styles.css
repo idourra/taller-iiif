@@ -51,6 +51,37 @@ nav .nav-inner {
     overflow-x: auto;
 }
 
+nav .nav-sub {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    height: 0;
+    gap: 4px;
+    overflow-x: auto;
+    transition: height 0.2s;
+}
+
+nav .nav-sub:not(:empty) {
+    height: 36px;
+    padding-bottom: 4px;
+}
+
+nav .nav-sub a {
+    color: var(--text-muted);
+    font-size: 12px;
+    padding: 4px 10px;
+    border-radius: var(--radius);
+    white-space: nowrap;
+    transition: all 0.2s;
+}
+
+nav .nav-sub a:hover,
+nav .nav-sub a.active {
+    color: #fff;
+    background: rgba(59, 130, 246, 0.15);
+}
+
 nav .logo {
     font-weight: 700;
     font-size: 16px;
@@ -72,6 +103,40 @@ nav a.nav-link:hover,
 nav a.nav-link.active {
     color: #fff;
     background: rgba(59, 130, 246, 0.15);
+}
+
+/* ── Main Tab Buttons ── */
+.main-tab-btn {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 13px;
+    padding: 6px 14px;
+    border-radius: var(--radius);
+    white-space: nowrap;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: inherit;
+    font-weight: 500;
+}
+
+.main-tab-btn:hover {
+    color: #fff;
+    background: rgba(59, 130, 246, 0.15);
+}
+
+.main-tab-btn.active {
+    color: #fff;
+    background: var(--accent);
+}
+
+/* ── Main Tab Panels ── */
+.main-tab-panel {
+    display: none;
+}
+
+.main-tab-panel.active {
+    display: block;
 }
 
 /* ── Hero ── */
