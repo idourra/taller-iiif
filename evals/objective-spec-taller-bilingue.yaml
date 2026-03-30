@@ -1,0 +1,50 @@
+estado: activa
+
+objective:
+  titulo: "Taller IIIF bilingüe con casos de ciencia holandesa"
+  descripcion: |
+    El taller IIIF interactivo actual (19 secciones, Cantaloupe + OpenSeadragon + Mirador)
+    está únicamente en español, lo que limita su uso con audiencias internacionales.
+    Además, no incluye ejemplos reales de instituciones holandesas relevantes para ciencia.
+
+    Problema: participantes no hispanohablantes no pueden aprovechar el taller.
+    Audiencia objetivo: académicos y profesionales vinculados a proyectos de ciencia
+    en Holanda, con énfasis en TU Delft.
+
+    Resultado esperado:
+    - Un toggle ES/EN en la misma página que cambia todo el contenido dinámicamente.
+    - Una nueva pestaña "Dutch Science" / "Ciencia Holandesa" con manifiestos IIIF
+      reales de TU Delft (prioridad), Rijksmuseum, KB, Leiden, y otras instituciones
+      holandesas, con contexto explicativo sobre cada colección y su relevancia científica.
+    - Los manifiestos deben ser cargables en los visores del taller (Mirador/OSD).
+
+  owner: "Pedro"
+
+  alcance:
+    incluye:
+      - "taller/index.html — toggle bilingüe + nueva sección Dutch Science"
+      - "taller/js/app.js — sistema i18n + lógica de carga de manifiestos holandeses"
+      - "taller/css/styles.css — estilos para toggle y nueva sección"
+    excluye:
+      - "Backend Cantaloupe — no se modifica configuración del servidor"
+      - "docker/ — no se modifica infraestructura"
+      - "Manifiestos locales existentes — no se alteran"
+
+  riesgos_identificados:
+    - "URLs IIIF externas pueden cambiar o caer — necesitan verificación y fallbacks"
+    - "CORS: algunos servidores IIIF holandeses pueden bloquear peticiones cross-origin"
+    - "Volumen de traducción alto (19 secciones) — riesgo de inconsistencias ES/EN"
+
+  adrs_referenciados:
+    - "ninguno — proyecto sin ADRs formales, taller frontend estático"
+
+  agentic:
+    usar_agente: true
+    patron_orquestacion: "single-agent"
+    justificacion_patron: "Un repo, un scope (frontend estático), un agente"
+    nivel_autonomia: "A1"
+    justificacion_autonomia: "Primera feature con EDD en este repo, A1 es el default seguro"
+
+  origen:
+    github_issues: []
+    notas: "Solicitud directa del PO en sesión de trabajo"

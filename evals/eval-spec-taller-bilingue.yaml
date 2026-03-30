@@ -1,0 +1,196 @@
+estado: activa
+
+objective:
+  titulo: "Taller IIIF bilingüe con casos de ciencia holandesa"
+  descripcion: |
+    Toggle ES/EN dinámico en el taller IIIF + nueva pestaña con recursos IIIF
+    de instituciones holandesas de ciencia (TU Delft prioritario).
+  owner: "Pedro"
+  alcance:
+    incluye:
+      - "taller/index.html"
+      - "taller/js/app.js"
+      - "taller/css/styles.css"
+    excluye:
+      - "Backend Cantaloupe"
+      - "docker/"
+  riesgos_identificados:
+    - "URLs externas pueden caer"
+    - "CORS en servidores holandeses"
+  adrs_referenciados:
+    - "ninguno"
+
+evaluation:
+  automated_tests:
+    unit:
+      # ── Sistema bilingüe ──
+      - descripcion: "Toggle ES/EN existe en el nav y cambia el atributo lang del HTML"
+        tipo: "fail-to-pass"
+        test_confidence: "structural"
+        comando: |
+          grep -q 'id="lang-toggle"' taller/index.html &&
+          grep -q 'lang="en"' taller/js/i18n.js &&
+          echo PASS || echo FAIL
+
+      - descripcion: "Todos los textos visibles tienen atributo data-i18n o están dentro de elementos con lang"
+        tipo: "fail-to-pass"
+        test_confidence: "structural"
+        comando: |
+          python3 -c "
+          import re
+          html = open('taller/index.html').read()
+          # Verificar que existe diccionario de traducciones
+          js = open('taller/js/app.js').read()
+          assert 'translations' in js or 'i18n' in js, 'No translation system found'
+          print('PASS')
+          "
+
+      - descripcion: "El diccionario de traducciones tiene entradas para ES y EN"
+        tipo: "fail-to-pass"
+        test_confidence: "functional"
+        comando: |
+          python3 -c "
+          js = open('taller/js/app.js').read()
+          assert '\"es\"' in js or \"'es'\" in js, 'No ES translations'
+          assert '\"en\"' in js or \"'en'\" in js, 'No EN translations'
+          print('PASS')
+          "
+
+      # ── Pestaña Dutch Science ──
+      - descripcion: "Existe sección/pestaña dedicada a casos holandeses"
+        tipo: "fail-to-pass"
+        test_confidence: "structural"
+        comando: |
+          grep -qi 'dutch\|holand\|nederland' taller/index.html &&
+          grep -qi 'delft' taller/index.html &&
+          echo PASS || echo FAIL
+
+      - descripcion: "La sección contiene al menos 3 manifiestos IIIF externos con URLs completas"
+        tipo: "fail-to-pass"
+        test_confidence: "structural"
+        comando: |
+          python3 -c "
+          import re
+          html = open('taller/index.html').read()
+          manifests = re.findall(r'https?://[^\s\"<>]+manifest[^\s\"<>]*', html)
+          assert len(manifests) >= 3, f'Only {len(manifests)} manifest URLs found, need >= 3'
+          print(f'PASS — {len(manifests)} manifest URLs found')
+          "
+
+      - descripcion: "TU Delft aparece como caso principal con contexto explicativo"
+        tipo: "fail-to-pass"
+        test_confidence: "structural"
+        comando: |
+          python3 -c "
+          html = open('taller/index.html').read()
+          assert 'Delft' in html, 'TU Delft not mentioned'
+          # Verificar que hay texto explicativo, no solo una URL
+          import re
+          delft_section = html[html.index('Delft')-500:html.index('Delft')+1000]
+          assert len(delft_section) > 200, 'TU Delft section too short — needs context'
+          print('PASS')
+          "
+
+      # ── No regresión ──
+      - descripcion: "Las secciones originales del taller siguen presentes"
+        tipo: "pass-to-pass"
+        test_confidence: "structural"
+        comando: |
+          python3 -c "
+          html = open('taller/index.html').read()
+          required = ['builder', 'regiones', 'tamanos', 'rotacion', 'calidad',
+                      'info', 'zoom', 'visor', 'comparar', 'presentacion',
+                      'manifiestos', 'crud', 'mirador', 'anotaciones', 'galeria']
+          missing = [s for s in required if f'id=\"{s}\"' not in html]
+          assert not missing, f'Missing sections: {missing}'
+          print('PASS — all original sections present')
+          "
+
+      - descripcion: "El nav contiene enlaces a todas las secciones originales + nueva sección"
+        tipo: "fail-to-pass"
+        test_confidence: "structural"
+        comando: |
+          python3 -c "
+          html = open('taller/index.html').read()
+          assert 'nav' in html, 'No nav found'
+          # Nueva sección en nav
+          assert 'dutch' in html.lower() or 'holand' in html.lower() or 'nederland' in html.lower() or 'nl' in html.lower(), 'Dutch section not in nav'
+          print('PASS')
+          "
+
+    integration: []
+    contract: []
+    architecture: []
+    bootstrap: []
+
+  live_verification:
+    comando: "python3 -m http.server 8080 --directory taller/ &"
+    instruccion: |
+      1. Abrir http://localhost:8080 en navegador
+      2. Verificar toggle ES/EN cambia todo el texto visible
+      3. Verificar nueva pestaña Dutch Science muestra manifiestos cargables
+      4. Verificar que Mirador carga al menos un manifiesto holandés
+      5. Verificar secciones originales siguen funcionando
+
+  static_analysis:
+    lint: "N/A"
+    type_check: "N/A"
+    secret_scan: "grep -rn 'api_key\\|apikey\\|secret\\|password\\|token' taller/js/ && echo FAIL || echo PASS"
+    dependency_scan: "N/A"
+
+  model_graders:
+    - nombre: "Calidad de traducción EN"
+      tipo: "rubric"
+      rubrica: |
+        - El inglés es natural y profesional (no traducción literal del español)
+        - Terminología IIIF es consistente (manifest, canvas, annotation, etc.)
+        - Los términos técnicos IIIF no se traducen (mantienen nomenclatura estándar)
+        - El contexto explicativo de las colecciones holandesas es informativo y preciso
+      calibrado_con_humano: false
+      dataset: ""
+
+  metrics:
+    - nombre: "Cobertura de traducción"
+      umbral_minimo: "90%"
+      umbral_objetivo: "100%"
+      descripcion: "% de textos visibles que tienen traducción EN. Un usuario anglófono debe poder usar el taller completo."
+
+    - nombre: "Manifiestos holandeses funcionales"
+      umbral_minimo: "3"
+      umbral_objetivo: "5+"
+      descripcion: "Número de manifiestos IIIF de instituciones holandesas que cargan correctamente en Mirador/OSD."
+
+    - nombre: "Presencia TU Delft"
+      umbral_minimo: "1 manifiesto + contexto"
+      umbral_objetivo: "2+ manifiestos + contexto científico detallado"
+      descripcion: "TU Delft es la institución prioritaria — debe tener presencia destacada."
+
+  eval_type: "capability"
+  graduation_criteria: "pass_rate >= 95% durante 2 semanas"
+  pass_metric: "pass@1"
+
+  security:
+    secretos: "prohibido — no se usan API keys en el frontend"
+    datos_sensibles: "N/A — todos los recursos IIIF son públicos"
+    permisos_herramientas:
+      - "git: read/write en rama feature"
+      - "browser: acceso a URLs IIIF públicas"
+
+  autonomy_level: "A1"
+  orchestration_pattern: "single-agent"
+  max_agent_exchanges: null
+  stop_conditions:
+    - "3 fallos consecutivos en la misma task"
+    - "URL IIIF externa no responde después de 3 intentos — marcar como pendiente y continuar"
+    - "CORS bloqueado — documentar y buscar alternativa"
+  budget_limit_usd: null
+  budget_mode: "advisory"
+  human_gates:
+    - tipo: "release"
+      obligatorio: true
+      condicion: "PO valida calidad de traducción y relevancia de casos holandeses"
+
+  hypothesis:
+    statement: "Un taller bilingüe con casos reales de ciencia holandesa incrementará la utilidad del recurso para audiencias internacionales y específicamente para colaboraciones con instituciones holandesas."
+    evidencia_previa: "first attempt — no hay datos previos"
+    resultado_esperado: "El taller funciona completamente en ambos idiomas y los manifiestos holandeses cargan en los visores."

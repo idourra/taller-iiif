@@ -26,7 +26,7 @@ function showToast(msg) {
 }
 
 function copyToClipboard(text) {
-    navigator.clipboard.writeText(text).then(() => showToast('URL copiada'));
+    navigator.clipboard.writeText(text).then(() => showToast(typeof I18N !== 'undefined' ? I18N.t('toast.copied') : 'URL copiada'));
 }
 
 // ─── Section 1: URL Anatomy tooltip ───
@@ -781,12 +781,122 @@ function loadInteropMirador(manifestUrls) {
 }
 
 // ─── Navigation active state ───
-function initNav() {
-    const links = document.querySelectorAll('nav a.nav-link');
-    const sections = [...links].map(l => document.querySelector(l.getAttribute('href'))).filter(Boolean);
+const TAB_SUB_LINKS = {
+    'tab-image-api': [
+        { href: '#anatomia', label: 'URL' },
+        { href: '#builder', label: 'Constructor' },
+        { href: '#regiones', label: 'Regiones' },
+        { href: '#tamanos', label: 'Tamaños' },
+        { href: '#rotacion', label: 'Rotación' },
+        { href: '#calidad', label: 'Calidad' },
+        { href: '#info', label: 'info.json' },
+        { href: '#zoom', label: 'Zoom' },
+        { href: '#visor', label: 'Visor' },
+        { href: '#comparar', label: 'Comparar' },
+        { href: '#galeria', label: 'Galería' },
+    ],
+    'tab-presentation': [
+        { href: '#presentacion', label: 'Conceptos' },
+        { href: '#manifiestos', label: 'Manifiestos' },
+        { href: '#crud', label: 'Editor' },
+        { href: '#mirador', label: 'Mirador' },
+        { href: '#anotaciones', label: 'Anotaciones' },
+    ],
+    'tab-search': [
+        { href: '#busqueda', label: 'Búsqueda' },
+    ],
+    'tab-interop': [
+        { href: '#interop', label: 'Interoperabilidad' },
+    ],
+    'tab-ohc': [
+        { href: '#ohc', label: 'OHC' },
+    ],
+    'tab-dutch': [
+        { href: '#dutch', label: 'Dutch Science' },
+    ],
+};
 
+// Track which tabs have been initialized
+const initializedTabs = new Set(['tab-image-api']);
+
+function initMainTabs() {
+    const buttons = document.querySelectorAll('.main-tab-btn');
+    const panels = document.querySelectorAll('.main-tab-panel');
+
+    buttons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const targetId = btn.dataset.panel;
+
+            // Update buttons
+            buttons.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            // Update panels
+            panels.forEach(p => p.classList.remove('active'));
+            const target = document.getElementById(targetId);
+            if (target) target.classList.add('active');
+
+            // Update sub-nav
+            updateSubNav(targetId);
+
+            // Lazy-init viewers for the tab if needed
+            lazyInitTab(targetId);
+
+            // Scroll to top of content
+            window.scrollTo({ top: document.querySelector('.hero').offsetHeight, behavior: 'smooth' });
+        });
+    });
+
+    // Initial sub-nav
+    updateSubNav('tab-image-api');
+}
+
+function updateSubNav(tabId) {
+    const subNav = document.getElementById('nav-sub');
+    if (!subNav) return;
+
+    const links = TAB_SUB_LINKS[tabId] || [];
+    subNav.innerHTML = links.map(l =>
+        `<a href="${l.href}" class="nav-sub-link">${l.label}</a>`
+    ).join('');
+}
+
+function lazyInitTab(tabId) {
+    if (initializedTabs.has(tabId)) return;
+    initializedTabs.add(tabId);
+
+    switch (tabId) {
+        case 'tab-presentation':
+            initManifestExplorer();
+            initMirador();
+            initCrudEditor();
+            break;
+        case 'tab-search':
+            initContentSearch();
+            break;
+        case 'tab-interop':
+            initInteropSection();
+            break;
+        case 'tab-ohc':
+            initOhcSection();
+            break;
+        case 'tab-dutch':
+            initDutchSection();
+            break;
+    }
+}
+
+function initNav() {
+    const subNav = document.getElementById('nav-sub');
+    if (!subNav) return;
+
+    // Scroll-based active state for sub-nav links
     function update() {
-        const y = window.scrollY + 80;
+        const links = subNav.querySelectorAll('a');
+        const sections = [...links].map(l => document.querySelector(l.getAttribute('href'))).filter(Boolean);
+        if (sections.length === 0) return;
+
+        const y = window.scrollY + 100;
         let current = sections[0];
         for (const s of sections) {
             if (s.offsetTop <= y) current = s;
@@ -1871,8 +1981,99 @@ function escapeHtml(str) {
     return div.innerHTML;
 }
 
+// ─── Dutch Science Section ───
+let dutchSelectedUrls = new Set();
+
+function toggleDutchSelect(card) {
+    const url = card.dataset.url;
+    if (dutchSelectedUrls.has(url)) {
+        dutchSelectedUrls.delete(url);
+        card.classList.remove('selected');
+    } else {
+        dutchSelectedUrls.add(url);
+        card.classList.add('selected');
+    }
+    const countEl = document.getElementById('dutch-selected-count');
+    if (countEl) {
+        const n = dutchSelectedUrls.size;
+        const label = typeof I18N !== 'undefined' ? I18N.t(n === 1 ? 'selected.single' : 'selected') : 'seleccionados';
+        countEl.textContent = `${n} ${label}`;
+    }
+}
+
+let dutchMiradorInstance = null;
+
+function loadDutchMirador(manifestUrls) {
+    const el = document.getElementById('dutch-mirador');
+    if (!el || typeof Mirador === 'undefined') return;
+
+    el.innerHTML = '';
+
+    const windows = manifestUrls.map(url => ({
+        manifestId: url,
+        thumbnailNavigationPosition: 'far-bottom',
+    }));
+
+    dutchMiradorInstance = Mirador.viewer({
+        id: 'dutch-mirador',
+        windows,
+        window: {
+            allowClose: true,
+            allowFullscreen: true,
+            allowMaximize: true,
+            defaultSideBarPanel: 'info',
+            sideBarOpenByDefault: false,
+        },
+        workspaceControlPanel: { enabled: true },
+        workspace: {
+            type: manifestUrls.length > 1 ? 'mosaic' : 'single',
+        },
+        theme: {
+            palette: {
+                type: 'dark',
+                primary: { main: '#3b82f6' },
+            }
+        }
+    });
+}
+
+function initDutchSection() {
+    const loadBtn = document.getElementById('dutch-load-btn');
+    const loadMultiBtn = document.getElementById('dutch-load-multi-btn');
+
+    // Select first TU Delft card by default
+    const firstCard = document.querySelector('.dutch-manifest-card');
+    if (firstCard) toggleDutchSelect(firstCard);
+
+    loadBtn?.addEventListener('click', () => {
+        const urls = [...dutchSelectedUrls];
+        if (urls.length > 0) loadDutchMirador([urls[0]]);
+    });
+
+    loadMultiBtn?.addEventListener('click', () => {
+        const urls = [...dutchSelectedUrls];
+        if (urls.length > 0) {
+            loadDutchMirador(urls);
+            const msg = typeof I18N !== 'undefined' ? I18N.t('toast.manifests.loaded') : 'manifiestos cargados';
+            showToast(`${urls.length} ${msg}`);
+        }
+    });
+
+    // Load first manifest
+    if (firstCard) loadDutchMirador([firstCard.dataset.url]);
+}
+
 // ─── Boot ───
 document.addEventListener('DOMContentLoaded', () => {
+    // Initialize i18n
+    if (typeof I18N !== 'undefined') I18N.init();
+
+    // Always init
+    initMainTabs();
+    initNav();
+    initTabs();
+
+    // Image API tab (active by default)
     initUrlAnatomy();
     initUrlBuilder();
     initRegionExplorer();
@@ -1884,12 +2085,6 @@ document.addEventListener('DOMContentLoaded', () => {
     initMainViewer();
     initSideBySideViewer();
     initGallery();
-    initManifestExplorer();
-    initMirador();
-    initCrudEditor();
-    initInteropSection();
-    initContentSearch();
-    initOhcSection();
-    initNav();
-    initTabs();
+
+    // Other tabs are lazy-initialized when first opened
 });
