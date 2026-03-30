@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" id="html-root">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,26 +13,28 @@
 <!-- ════════════════════ NAV ════════════════════ -->
 <nav>
     <div class="nav-inner">
-        <span class="logo">📐 Taller IIIF</span>
+        <span class="logo">📐 <span data-i18n="nav.logo">Taller IIIF</span></span>
+        <button id="lang-toggle" class="lang-toggle" title="Switch to English">EN</button>
         <button class="main-tab-btn active" data-panel="tab-image-api">🖼️ Image API</button>
         <button class="main-tab-btn" data-panel="tab-presentation">📖 Presentation API</button>
         <button class="main-tab-btn" data-panel="tab-search">🔎 Content Search</button>
-        <button class="main-tab-btn" data-panel="tab-interop">🌍 Internacional</button>
+        <button class="main-tab-btn" data-panel="tab-interop">🌍 <span data-i18n="nav.interop">Internacional</span></button>
         <button class="main-tab-btn" data-panel="tab-ohc">🇨🇺 OHC</button>
+        <button class="main-tab-btn" data-panel="tab-dutch">🇳🇱 <span data-i18n="nav.dutch">Ciencia NL</span></button>
     </div>
     <div class="nav-sub" id="nav-sub"></div>
 </nav>
 
 <!-- ════════════════════ HERO ════════════════════ -->
 <div class="hero" id="intro">
-    <h1>Taller IIIF Interactivo</h1>
-    <p>Explora las posibilidades del estándar IIIF (International Image Interoperability Framework) usando Cantaloupe como servidor de imágenes y OpenSeadragon como visor.</p>
+    <h1 data-i18n="hero.title">Taller IIIF Interactivo</h1>
+    <p data-i18n="hero.desc">Explora las posibilidades del estándar IIIF (International Image Interoperability Framework) usando Cantaloupe como servidor de imágenes y OpenSeadragon como visor.</p>
 </div>
 
 <!-- ════════════════════ 1. QUÉ ES IIIF ════════════════════ -->
 <section>
-    <h2>¿Qué es IIIF? <span class="badge">Concepto</span></h2>
-    <p class="desc">IIIF es un conjunto de estándares abiertos para servir, compartir y anotar imágenes de alta resolución a través de la web.</p>
+    <h2><span data-i18n="sec1.title">¿Qué es IIIF?</span> <span class="badge">Concepto</span></h2>
+    <p class="desc" data-i18n="sec1.desc">IIIF es un conjunto de estándares abiertos para servir, compartir y anotar imágenes de alta resolución a través de la web.</p>
 
     <div class="grid-3">
         <div class="card">
@@ -71,8 +73,8 @@
 
 <!-- ════════════════════ 2. ANATOMÍA DE LA URL ════════════════════ -->
 <section id="anatomia">
-    <h2>Anatomía de una URL IIIF <span class="badge">Image API 3.0</span></h2>
-    <p class="desc">Cada parte de la URL controla un aspecto de la imagen que se devuelve. Pasa el cursor sobre cada parte.</p>
+    <h2><span data-i18n="sec2.title">Anatomía de una URL IIIF</span> <span class="badge">Image API 3.0</span></h2>
+    <p class="desc" data-i18n="sec2.desc">Cada parte de la URL controla un aspecto de la imagen que se devuelve. Pasa el cursor sobre cada parte.</p>
 
     <div class="card">
         <div class="url-anatomy">
@@ -123,8 +125,8 @@ pct:n           → Porcentaje del original</pre>
 
 <!-- ════════════════════ 3. CONSTRUCTOR DE URL ════════════════════ -->
 <section id="builder">
-    <h2>Constructor interactivo <span class="badge">Experimenta</span></h2>
-    <p class="desc">Ajusta los parámetros y observa el resultado en tiempo real. Haz click en la URL para copiarla.</p>
+    <h2><span data-i18n="sec3.title">Constructor interactivo</span> <span class="badge">Experimenta</span></h2>
+    <p class="desc" data-i18n="sec3.desc">Ajusta los parámetros y observa el resultado en tiempo real. Haz click en la URL para copiarla.</p>
 
     <div class="card" id="builder-form">
         <div class="builder-controls">
@@ -213,8 +215,8 @@ pct:n           → Porcentaje del original</pre>
 
 <!-- ════════════════════ 4. REGIONES ════════════════════ -->
 <section id="regiones">
-    <h2>Regiones <span class="badge">Region</span></h2>
-    <p class="desc">Selecciona qué parte de la imagen quieres obtener. Click en cualquiera para copiar su URL.</p>
+    <h2><span data-i18n="sec4.title">Regiones</span> <span class="badge">Region</span></h2>
+    <p class="desc" data-i18n="sec4.desc">Selecciona qué parte de la imagen quieres obtener. Click en cualquiera para copiar su URL.</p>
 
     <div class="grid-4" id="region-examples">
         <!-- Populated by JS -->
@@ -223,8 +225,8 @@ pct:n           → Porcentaje del original</pre>
 
 <!-- ════════════════════ 5. TAMAÑOS ════════════════════ -->
 <section id="tamanos">
-    <h2>Tamaños <span class="badge">Size</span></h2>
-    <p class="desc">Controla las dimensiones de la imagen de salida. IIIF permite especificar ancho, alto, porcentaje o encajar en una caja.</p>
+    <h2><span data-i18n="sec5.title">Tamaños</span> <span class="badge">Size</span></h2>
+    <p class="desc" data-i18n="sec5.desc">Controla las dimensiones de la imagen de salida. IIIF permite especificar ancho, alto, porcentaje o encajar en una caja.</p>
 
     <div class="grid-4" id="size-examples">
         <!-- Populated by JS -->
@@ -233,8 +235,8 @@ pct:n           → Porcentaje del original</pre>
 
 <!-- ════════════════════ 6. ROTACIÓN ════════════════════ -->
 <section id="rotacion">
-    <h2>Rotación y espejo <span class="badge">Rotation</span></h2>
-    <p class="desc">Rota la imagen en cualquier ángulo (0-360°). Usa el prefijo ! para aplicar espejo horizontal antes de rotar.</p>
+    <h2><span data-i18n="sec6.title">Rotación y espejo</span> <span class="badge">Rotation</span></h2>
+    <p class="desc" data-i18n="sec6.desc">Rota la imagen en cualquier ángulo (0-360°). Usa el prefijo ! para aplicar espejo horizontal antes de rotar.</p>
 
     <div class="grid-4" id="rotation-examples">
         <!-- Populated by JS -->
@@ -243,8 +245,8 @@ pct:n           → Porcentaje del original</pre>
 
 <!-- ════════════════════ 7. CALIDAD Y FORMATO ════════════════════ -->
 <section id="calidad">
-    <h2>Calidad y formato <span class="badge">Quality &amp; Format</span></h2>
-    <p class="desc">Transforma la imagen a diferentes calidades (color, grises, bitonal) y formatos (JPG, PNG, WebP).</p>
+    <h2><span data-i18n="sec7.title">Calidad y formato</span> <span class="badge">Quality &amp; Format</span></h2>
+    <p class="desc" data-i18n="sec7.desc">Transforma la imagen a diferentes calidades (color, grises, bitonal) y formatos (JPG, PNG, WebP).</p>
 
     <div class="grid-4" id="quality-examples">
         <!-- Populated by JS -->
@@ -253,8 +255,8 @@ pct:n           → Porcentaje del original</pre>
 
 <!-- ════════════════════ 8. INFO.JSON ════════════════════ -->
 <section id="info">
-    <h2>info.json <span class="badge">Metadatos</span></h2>
-    <p class="desc">Cada imagen IIIF expone un endpoint info.json con sus metadatos: dimensiones, formatos soportados, niveles de tile, etc. Es lo que usa OpenSeadragon para saber cómo pedir los tiles.</p>
+    <h2><span data-i18n="sec8.title">info.json</span> <span class="badge">Metadatos</span></h2>
+    <p class="desc" data-i18n="sec8.desc">Cada imagen IIIF expone un endpoint info.json con sus metadatos: dimensiones, formatos soportados, niveles de tile, etc. Es lo que usa OpenSeadragon para saber cómo pedir los tiles.</p>
 
     <div class="card">
         <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;">
@@ -302,8 +304,8 @@ pct:n           → Porcentaje del original</pre>
 
 <!-- ════════════════════ 9. ZOOM ════════════════════ -->
 <section id="zoom">
-    <h2>Zoom progresivo <span class="badge">Deep Zoom</span></h2>
-    <p class="desc">IIIF permite hacer zoom progresivo pidiendo regiones cada vez más pequeñas a resolución completa. Así funciona el "deep zoom" que permite explorar imágenes gigantes.</p>
+    <h2><span data-i18n="sec9.title">Zoom progresivo</span> <span class="badge">Deep Zoom</span></h2>
+    <p class="desc" data-i18n="sec9.desc">IIIF permite hacer zoom progresivo pidiendo regiones cada vez más pequeñas a resolución completa. Así funciona el "deep zoom" que permite explorar imágenes gigantes.</p>
 
     <div class="grid-4" id="zoom-levels">
         <!-- Populated by JS -->
@@ -323,8 +325,8 @@ Nivel N:  resolución completa, solo carga los tiles visibles</pre>
 
 <!-- ════════════════════ 10. VISOR OPENSEADRAGON ════════════════════ -->
 <section id="visor">
-    <h2>Visor OpenSeadragon <span class="badge">Interactivo</span></h2>
-    <p class="desc">Zoom profundo con rueda del ratón, arrastrar para mover, botones de rotación. OpenSeadragon pide automáticamente solo los tiles necesarios al servidor Cantaloupe.</p>
+    <h2><span data-i18n="sec10.title">Visor OpenSeadragon</span> <span class="badge">Interactivo</span></h2>
+    <p class="desc" data-i18n="sec10.desc">Zoom profundo con rueda del ratón, arrastrar para mover, botones de rotación. OpenSeadragon pide automáticamente solo los tiles necesarios al servidor Cantaloupe.</p>
 
     <div class="card">
         <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;">
@@ -364,8 +366,8 @@ Nivel N:  resolución completa, solo carga los tiles visibles</pre>
 
 <!-- ════════════════════ 11. COMPARAR ════════════════════ -->
 <section id="comparar">
-    <h2>Comparar imágenes <span class="badge">Side by Side</span></h2>
-    <p class="desc">Visualiza dos imágenes simultáneamente con zoom independiente. Útil para comparar diferentes versiones, restauraciones o detalles.</p>
+    <h2><span data-i18n="sec11.title">Comparar imágenes</span> <span class="badge">Side by Side</span></h2>
+    <p class="desc" data-i18n="sec11.desc">Visualiza dos imágenes simultáneamente con zoom independiente. Útil para comparar diferentes versiones, restauraciones o detalles.</p>
 
     <div class="card">
         <div style="display:flex;gap:16px;margin-bottom:16px;flex-wrap:wrap;">
@@ -399,8 +401,8 @@ Nivel N:  resolución completa, solo carga los tiles visibles</pre>
 
 <!-- ════════════════════ GALERÍA (en Image API) ════════════════════ -->
 <section id="galeria">
-    <h2>Galería de imágenes <span class="badge">Colección</span></h2>
-    <p class="desc">Todas las imágenes disponibles en el servidor. Click en una para ver su info.json.</p>
+    <h2><span data-i18n="sec18.title">Galería de imágenes</span> <span class="badge">Colección</span></h2>
+    <p class="desc" data-i18n="sec18.desc">Todas las imágenes disponibles en el servidor. Click en una para ver su info.json.</p>
 
     <div class="grid-4" id="gallery-grid" style="grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));">
         <!-- Populated by JS -->
@@ -413,8 +415,8 @@ Nivel N:  resolución completa, solo carga los tiles visibles</pre>
 
 <!-- ════════════════════ 12. PRESENTATION API ════════════════════ -->
 <section id="presentacion">
-    <h2>Presentation API <span class="badge">IIIF Presentation 3.0</span></h2>
-    <p class="desc">La Image API sirve imágenes individuales. La Presentation API organiza esas imágenes en estructuras con significado: libros, manuscritos, exposiciones, colecciones.</p>
+    <h2><span data-i18n="sec12.title">Presentation API</span> <span class="badge">IIIF Presentation 3.0</span></h2>
+    <p class="desc" data-i18n="sec12.desc">La Image API sirve imágenes individuales. La Presentation API organiza esas imágenes en estructuras con significado: libros, manuscritos, exposiciones, colecciones.</p>
 
     <div class="grid-2">
         <div class="card">
@@ -496,8 +498,8 @@ Nivel N:  resolución completa, solo carga los tiles visibles</pre>
 
 <!-- ════════════════════ 13. EXPLORADOR DE MANIFIESTOS ════════════════════ -->
 <section id="manifiestos">
-    <h2>Explorador de manifiestos <span class="badge">Interactivo</span></h2>
-    <p class="desc">Explora los manifiestos de ejemplo. Selecciona uno para ver su estructura JSON y la visualización de sus canvas.</p>
+    <h2><span data-i18n="sec13.title">Explorador de manifiestos</span> <span class="badge">Interactivo</span></h2>
+    <p class="desc" data-i18n="sec13.desc">Explora los manifiestos de ejemplo. Selecciona uno para ver su estructura JSON y la visualización de sus canvas.</p>
 
     <div class="card">
         <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap;">
@@ -529,8 +531,8 @@ Nivel N:  resolución completa, solo carga los tiles visibles</pre>
 
 <!-- ════════════════════ 13b. EDITOR DE MANIFIESTOS ════════════════════ -->
 <section id="crud">
-    <h2>Editor de Manifiestos IIIF <span class="badge">CRUD Interactivo</span></h2>
-    <p class="desc">Crea, edita y exporta manifiestos IIIF 3.0 usando el <strong>Digirati Manifest Editor</strong> (open source, integrado en este contenedor) o el editor visual rápido con plantillas precocinadas.</p>
+    <h2><span data-i18n="sec14.title">Editor de Manifiestos IIIF</span> <span class="badge">CRUD Interactivo</span></h2>
+    <p class="desc" data-i18n="sec14.desc" data-i18n-attr="innerHTML">Crea, edita y exporta manifiestos IIIF 3.0 usando el <strong>Digirati Manifest Editor</strong> (open source, integrado en este contenedor) o el editor visual rápido con plantillas precocinadas.</p>
 
     <div class="grid-2" style="margin-bottom:24px;">
         <div class="card">
@@ -685,8 +687,8 @@ Nivel N:  resolución completa, solo carga los tiles visibles</pre>
 
 <!-- ════════════════════ 14. MIRADOR ════════════════════ -->
 <section id="mirador">
-    <h2>Visor Mirador <span class="badge">Presentation API Viewer</span></h2>
-    <p class="desc">Mirador es el visor IIIF más completo. Lee manifiestos y permite navegar páginas, ver metadatos, comparar imágenes lado a lado, y gestionar anotaciones.</p>
+    <h2><span data-i18n="sec15.title">Visor Mirador</span> <span class="badge">Presentation API Viewer</span></h2>
+    <p class="desc" data-i18n="sec15.desc">Mirador es el visor IIIF más completo. Lee manifiestos y permite navegar páginas, ver metadatos, comparar imágenes lado a lado, y gestionar anotaciones.</p>
 
     <div class="card">
         <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap;">
@@ -736,8 +738,8 @@ Nivel N:  resolución completa, solo carga los tiles visibles</pre>
 
 <!-- ════════════════════ 15. ANOTACIONES ════════════════════ -->
 <section id="anotaciones">
-    <h2>Anotaciones IIIF <span class="badge">Web Annotation</span></h2>
-    <p class="desc">Las anotaciones IIIF siguen el estándar W3C Web Annotation y permiten asociar contenido (texto, tags, enlaces) a zonas específicas de un canvas.</p>
+    <h2><span data-i18n="sec16.title">Anotaciones IIIF</span> <span class="badge">Web Annotation</span></h2>
+    <p class="desc" data-i18n="sec16.desc">Las anotaciones IIIF siguen el estándar W3C Web Annotation y permiten asociar contenido (texto, tags, enlaces) a zonas específicas de un canvas.</p>
 
     <div class="grid-2">
         <div class="card">
@@ -796,8 +798,8 @@ Nivel N:  resolución completa, solo carga los tiles visibles</pre>
 
 <!-- ════════════════════ 16. INTEROPERABILIDAD ════════════════════ -->
 <section id="interop">
-    <h2>Interoperabilidad en acción <span class="badge">El poder de IIIF</span></h2>
-    <p class="desc">La verdadera potencia de IIIF es que cualquier visor puede abrir manifiestos de cualquier institución del mundo. Aquí puedes explorar colecciones reales de museos, bibliotecas y archivos internacionales, todo desde el mismo visor.</p>
+    <h2><span data-i18n="sec17.title">Interoperabilidad en acción</span> <span class="badge">El poder de IIIF</span></h2>
+    <p class="desc" data-i18n="sec17.desc">La verdadera potencia de IIIF es que cualquier visor puede abrir manifiestos de cualquier institución del mundo. Aquí puedes explorar colecciones reales de museos, bibliotecas y archivos internacionales, todo desde el mismo visor.</p>
 
     <div class="card" style="margin-bottom:24px;">
         <h3>🌍 ¿Por qué importa la interoperabilidad?</h3>
@@ -869,8 +871,8 @@ Nivel N:  resolución completa, solo carga los tiles visibles</pre>
 
 <!-- ════════════════════ 18. CONTENT SEARCH API ════════════════════ -->
 <section id="busqueda">
-    <h2>🔎 IIIF Content Search API <span class="badge">Búsqueda dentro de documentos</span></h2>
-    <p class="desc">La <strong>Content Search API</strong> permite buscar texto dentro de documentos IIIF que tienen OCR (reconocimiento óptico de caracteres). Los resultados devuelven las coordenadas exactas donde aparece cada término en cada página.</p>
+    <h2>🔎 <span data-i18n="sec19.title">IIIF Content Search API</span> <span class="badge">Búsqueda dentro de documentos</span></h2>
+    <p class="desc" data-i18n="sec19.desc" data-i18n-attr="innerHTML">La <strong>Content Search API</strong> permite buscar texto dentro de documentos IIIF que tienen OCR (reconocimiento óptico de caracteres). Los resultados devuelven las coordenadas exactas donde aparece cada término en cada página.</p>
 
     <!-- Explicación -->
     <div class="card" style="margin-bottom:24px;">
@@ -1009,8 +1011,8 @@ Nivel N:  resolución completa, solo carga los tiles visibles</pre>
 
 <!-- ════════════════════ 19. CASO PRÁCTICO: OHC ════════════════════ -->
 <section id="ohc">
-    <h2>🇨🇺 Caso práctico: Oficina del Historiador de La Habana <span class="badge">Repositorio real</span></h2>
-    <p class="desc">Aplica todo lo aprendido en el taller con imágenes reales del <a href="http://coleccionesdigitales.ohc.cu/" target="_blank">Repositorio Digital de la Oficina del Historiador de la Ciudad de La Habana</a>. Este repositorio usa <strong>Cantaloupe + Omeka S</strong> para servir colecciones patrimoniales cubanas vía IIIF.</p>
+    <h2>🇨🇺 <span data-i18n="sec20.title">Caso práctico: Oficina del Historiador de La Habana</span> <span class="badge">Repositorio real</span></h2>
+    <p class="desc" data-i18n="sec20.desc" data-i18n-attr="innerHTML">Aplica todo lo aprendido en el taller con imágenes reales del <a href="http://coleccionesdigitales.ohc.cu/" target="_blank">Repositorio Digital de la Oficina del Historiador de la Ciudad de La Habana</a>. Este repositorio usa <strong>Cantaloupe + Omeka S</strong> para servir colecciones patrimoniales cubanas vía IIIF.</p>
 
     <!-- About -->
     <div class="card" style="margin-bottom:24px;">
@@ -1219,14 +1221,137 @@ Nivel N:  resolución completa, solo carga los tiles visibles</pre>
 
 </div><!-- /tab-ohc -->
 
+<!-- ════════════════════ TAB: DUTCH SCIENCE ════════════════════ -->
+<div id="tab-dutch" class="main-tab-panel">
+
+<section id="dutch">
+    <h2>🇳🇱 <span data-i18n="sec21.title">Ciencia holandesa e IIIF</span> <span class="badge">Dutch Science</span></h2>
+    <p class="desc" data-i18n="sec21.desc">Explora recursos IIIF de instituciones holandesas con especial énfasis en colecciones de ciencia e ingeniería. Los Países Bajos son líderes en patrimonio digital abierto.</p>
+
+    <!-- TU Delft -->
+    <div class="card" style="margin-bottom:24px;border-left:4px solid #0066cc;">
+        <h3>🎓 <span data-i18n="sec21.delft.title">TU Delft — Patrimonio Científico</span></h3>
+        <p style="color:var(--text-muted);margin-bottom:16px;font-size:13px;" data-i18n="sec21.delft.desc" data-i18n-attr="innerHTML">La Universidad Tecnológica de Delft publica sus colecciones patrimoniales como manifiestos IIIF 3.0 a través de su portal <strong>heritage.tudelft.nl</strong>. Incluye exposiciones sobre mujeres en la ciencia, conocimiento de irrigación, historia del campus y más.</p>
+        <div id="dutch-delft-cards" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;margin-bottom:16px;">
+            <div class="card dutch-manifest-card" data-url="https://heritage.tudelft.nl/iiif/manifests/voices-of-wis/manifest.json" style="padding:12px;cursor:pointer;border:2px solid transparent;transition:all 0.2s;" onclick="toggleDutchSelect(this)">
+                <div style="font-weight:600;font-size:13px;">🔬 Voices of Women in Science</div>
+                <div style="font-size:11px;color:var(--accent);margin-top:2px;">heritage.tudelft.nl</div>
+                <div style="font-size:11px;color:var(--text-muted);margin-top:4px;" data-i18n="sec21.delft.wis">Mujeres en la Ciencia — 26 piezas que narran la contribución de las mujeres en la ciencia y tecnología en TU Delft.</div>
+            </div>
+            <div class="card dutch-manifest-card" data-url="https://heritage.tudelft.nl/iiif/manifests/irrigation-knowledge/manifest.json" style="padding:12px;cursor:pointer;border:2px solid transparent;transition:all 0.2s;" onclick="toggleDutchSelect(this)">
+                <div style="font-weight:600;font-size:13px;">💧 Irrigation Knowledge</div>
+                <div style="font-size:11px;color:var(--accent);margin-top:2px;">heritage.tudelft.nl</div>
+                <div style="font-size:11px;color:var(--text-muted);margin-top:4px;" data-i18n="sec21.delft.irrigation">Conocimiento de irrigación — Planos e ilustraciones de ingeniería hidráulica holandesa, una tradición centenaria.</div>
+            </div>
+            <div class="card dutch-manifest-card" data-url="https://heritage.tudelft.nl/iiif/manifests/rise-of-a-campus/manifest.json" style="padding:12px;cursor:pointer;border:2px solid transparent;transition:all 0.2s;" onclick="toggleDutchSelect(this)">
+                <div style="font-weight:600;font-size:13px;">🏛️ Rise of a Campus</div>
+                <div style="font-size:11px;color:var(--accent);margin-top:2px;">heritage.tudelft.nl</div>
+                <div style="font-size:11px;color:var(--text-muted);margin-top:4px;" data-i18n="sec21.delft.campus">Historia del Campus — El desarrollo arquitectónico y científico de TU Delft desde sus inicios.</div>
+            </div>
+            <div class="card dutch-manifest-card" data-url="https://heritage.tudelft.nl/iiif/manifests/gen-ai/manifest.json" style="padding:12px;cursor:pointer;border:2px solid transparent;transition:all 0.2s;" onclick="toggleDutchSelect(this)">
+                <div style="font-weight:600;font-size:13px;">🤖 Gen AI on the Fly</div>
+                <div style="font-size:11px;color:var(--accent);margin-top:2px;">heritage.tudelft.nl</div>
+                <div style="font-size:11px;color:var(--text-muted);margin-top:4px;" data-i18n="sec21.delft.genai">IA Generativa al Vuelo — Exposición sobre la intersección de inteligencia artificial y patrimonio cultural.</div>
+            </div>
+            <div class="card dutch-manifest-card" data-url="https://heritage.tudelft.nl/iiif/manifests/corona-chronicles/manifest.json" style="padding:12px;cursor:pointer;border:2px solid transparent;transition:all 0.2s;" onclick="toggleDutchSelect(this)">
+                <div style="font-weight:600;font-size:13px;">🦠 Corona Chronicles</div>
+                <div style="font-size:11px;color:var(--accent);margin-top:2px;">heritage.tudelft.nl</div>
+                <div style="font-size:11px;color:var(--text-muted);margin-top:4px;" data-i18n="sec21.delft.corona">Crónicas del Corona — Documentación del impacto del COVID-19 en la comunidad universitaria.</div>
+            </div>
+            <div class="card dutch-manifest-card" data-url="https://heritage.tudelft.nl/iiif/manifests/collection-wall/manifest.json" style="padding:12px;cursor:pointer;border:2px solid transparent;transition:all 0.2s;" onclick="toggleDutchSelect(this)">
+                <div style="font-weight:600;font-size:13px;">📚 Collection Wall</div>
+                <div style="font-size:11px;color:var(--accent);margin-top:2px;">heritage.tudelft.nl</div>
+                <div style="font-size:11px;color:var(--text-muted);margin-top:4px;" data-i18n="sec21.delft.collection">Colección General — Punto de entrada a todas las colecciones digitales de TU Delft Heritage.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Rijksmuseum -->
+    <div class="card" style="margin-bottom:24px;border-left:4px solid #c8102e;">
+        <h3>🎨 <span data-i18n="sec21.rijks.title">Rijksmuseum — Arte y Ciencia</span></h3>
+        <p style="color:var(--text-muted);margin-bottom:16px;font-size:13px;" data-i18n="sec21.rijks.desc">El Rijksmuseum de Ámsterdam ofrece manifiestos IIIF 3.0 de su colección completa a través de Micrio. Además de obras maestras, incluye instrumentos científicos, globos terráqueos y objetos de historia natural.</p>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;margin-bottom:16px;">
+            <div class="card dutch-manifest-card" data-url="https://iiif.micr.io/PJEZO/manifest" style="padding:12px;cursor:pointer;border:2px solid transparent;transition:all 0.2s;" onclick="toggleDutchSelect(this)">
+                <div style="font-weight:600;font-size:13px;">🌙 De Nachtwacht (The Night Watch)</div>
+                <div style="font-size:11px;color:var(--accent);margin-top:2px;">Rijksmuseum, Amsterdam — SK-C-5</div>
+                <div style="font-size:11px;color:var(--text-muted);margin-top:4px;" data-i18n="sec21.rijks.nightwatch">La Ronda de Noche — La obra maestra de Rembrandt en resolución ultra-alta (717 gigapíxeles).</div>
+            </div>
+            <div class="card dutch-manifest-card" data-url="https://iiif.micr.io/QkOGy/manifest" style="padding:12px;cursor:pointer;border:2px solid transparent;transition:all 0.2s;" onclick="toggleDutchSelect(this)">
+                <div style="font-weight:600;font-size:13px;">🥛 Het Melkmeisje (The Milkmaid)</div>
+                <div style="font-size:11px;color:var(--accent);margin-top:2px;">Rijksmuseum, Amsterdam — SK-A-2344</div>
+                <div style="font-size:11px;color:var(--text-muted);margin-top:4px;" data-i18n="sec21.rijks.milkmaid">La Lechera — Obra icónica de Vermeer con detalles microscópicos visibles.</div>
+            </div>
+            <div class="card dutch-manifest-card" data-url="https://iiif.micr.io/vacBr/manifest" style="padding:12px;cursor:pointer;border:2px solid transparent;transition:all 0.2s;" onclick="toggleDutchSelect(this)">
+                <div style="font-weight:600;font-size:13px;">🏠 Poppenhuis van Petronella Oortman</div>
+                <div style="font-size:11px;color:var(--accent);margin-top:2px;">Rijksmuseum, Amsterdam — BK-NM-1010</div>
+                <div style="font-size:11px;color:var(--text-muted);margin-top:4px;" data-i18n="sec21.rijks.dollhouse">Casa de Muñecas de Petronella Oortman — Objeto 3D del siglo XVII con detalle extraordinario.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- KB / eCodicesNL -->
+    <div class="card" style="margin-bottom:24px;border-left:4px solid #f7a600;">
+        <h3>📜 <span data-i18n="sec21.kb.title">KB / eCodicesNL — Manuscritos Medievales</span></h3>
+        <p style="color:var(--text-muted);margin-bottom:16px;font-size:13px;" data-i18n="sec21.kb.desc">La Biblioteca Nacional de los Países Bajos (KB) publica sus manuscritos medievales a través de eCodicesNL con manifiestos IIIF 3.0 ricos en metadatos. Incluye códices iluminados, textos científicos y obras fundamentales de la tradición europea.</p>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;margin-bottom:16px;">
+            <div class="card dutch-manifest-card" data-url="https://access.ecodices.nl/iiif/presentation/MMW_10_A_12/manifest" style="padding:12px;cursor:pointer;border:2px solid transparent;transition:all 0.2s;" onclick="toggleDutchSelect(this)">
+                <div style="font-weight:600;font-size:13px;">📖 De Civitate Dei — Augustine</div>
+                <div style="font-size:11px;color:var(--accent);margin-top:2px;">eCodicesNL / KB Den Haag — MMW 10 A 12</div>
+                <div style="font-size:11px;color:var(--text-muted);margin-top:4px;" data-i18n="sec21.kb.augustine">La Ciudad de Dios de San Agustín (1410-1421) — 597 páginas con iluminaciones extraordinarias.</div>
+            </div>
+            <div class="card dutch-manifest-card" data-url="https://access.ecodices.nl/iiif/presentation/collection/MMW" style="padding:12px;cursor:pointer;border:2px solid transparent;transition:all 0.2s;" onclick="toggleDutchSelect(this)">
+                <div style="font-weight:600;font-size:13px;">📚 Huis van het Boek Collection</div>
+                <div style="font-size:11px;color:var(--accent);margin-top:2px;">eCodicesNL / KB Den Haag</div>
+                <div style="font-size:11px;color:var(--text-muted);margin-top:4px;" data-i18n="sec21.kb.collection">Colección completa Huis van het Boek — 66 manuscritos medievales de Den Haag.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Actions -->
+    <div class="card" style="margin-bottom:24px;">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap;">
+            <button class="btn btn-primary" id="dutch-load-btn" data-i18n="sec21.load.btn">Cargar en Mirador</button>
+            <button class="btn btn-outline" id="dutch-load-multi-btn" data-i18n="sec21.load.multi">Abrir seleccionados</button>
+            <span id="dutch-selected-count" style="color:var(--text-muted);font-size:12px;">0 <span data-i18n="selected">seleccionados</span></span>
+        </div>
+        <div id="dutch-mirador" style="width:100%;height:650px;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;position:relative;background:var(--bg-code);"></div>
+    </div>
+
+    <!-- Why Netherlands + Science -->
+    <div class="card">
+        <h3>🔬 <span data-i18n="sec21.why.title">¿Por qué Holanda y la ciencia?</span></h3>
+        <p style="color:var(--text-muted);margin-top:12px;line-height:1.8;" data-i18n="sec21.why.desc">Los Países Bajos tienen una larga tradición de ciencia abierta. TU Delft es líder en acceso abierto a datos de investigación, y el Rijksmuseum fue pionero en liberar sus colecciones como datos abiertos. IIIF es una pieza fundamental de esta estrategia: permite que investigadores de todo el mundo accedan, comparen y anoten recursos sin necesidad de descargarlos.</p>
+        <div class="grid-3" style="margin-top:20px;">
+            <div style="text-align:center;">
+                <div style="font-size:40px;margin-bottom:8px;">🎓</div>
+                <p><strong>TU Delft</strong></p>
+                <p style="color:var(--text-muted);font-size:13px;">heritage.tudelft.nl</p>
+            </div>
+            <div style="text-align:center;">
+                <div style="font-size:40px;margin-bottom:8px;">🎨</div>
+                <p><strong>Rijksmuseum</strong></p>
+                <p style="color:var(--text-muted);font-size:13px;">iiif.micr.io</p>
+            </div>
+            <div style="text-align:center;">
+                <div style="font-size:40px;margin-bottom:8px;">📜</div>
+                <p><strong>KB / eCodicesNL</strong></p>
+                <p style="color:var(--text-muted);font-size:13px;">access.ecodices.nl</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+</div><!-- /tab-dutch -->
+
 <!-- ════════════════════ FOOTER ════════════════════ -->
 <footer>
-    <p>Taller IIIF · Cantaloupe 5.0 + OpenSeadragon · <a href="https://iiif.io" target="_blank">iiif.io</a> · <a href="https://cantaloupe-project.github.io" target="_blank">Cantaloupe</a> · <a href="https://openseadragon.github.io" target="_blank">OpenSeadragon</a></p>
+    <p><span data-i18n="footer">Taller IIIF · Cantaloupe 5.0 + OpenSeadragon</span> · <a href="https://iiif.io" target="_blank">iiif.io</a> · <a href="https://cantaloupe-project.github.io" target="_blank">Cantaloupe</a> · <a href="https://openseadragon.github.io" target="_blank">OpenSeadragon</a></p>
 </footer>
 
 <!-- ── Scripts ── -->
 <script src="https://cdn.jsdelivr.net/npm/openseadragon@4.1/build/openseadragon/openseadragon.min.js"></script>
 <script src="https://unpkg.com/mirador@latest/dist/mirador.min.js"></script>
+<script src="js/i18n.js"></script>
 <script src="js/app.js"></script>
 
 <!-- Rotation slider label -->

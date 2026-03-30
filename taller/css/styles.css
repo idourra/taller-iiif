@@ -87,7 +87,35 @@ nav .logo {
     font-size: 16px;
     color: var(--accent);
     white-space: nowrap;
-    margin-right: 16px;
+    margin-right: 8px;
+}
+
+.lang-toggle {
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    padding: 4px 10px;
+    border-radius: var(--radius);
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s;
+    margin-right: 8px;
+    letter-spacing: 0.5px;
+}
+
+.lang-toggle:hover {
+    background: var(--accent-hover);
+}
+
+/* ── Dutch Science cards ── */
+.dutch-manifest-card:hover {
+    border-color: var(--accent) !important;
+}
+.dutch-manifest-card.selected {
+    border-color: var(--accent) !important;
+    background: rgba(59, 130, 246, 0.08);
 }
 
 nav a.nav-link {
