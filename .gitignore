@@ -16,6 +16,12 @@ Thumbs.db
 *.swp
 *.swo
 
+# Build artifacts
+*.tar.gz
+
+# Runtime-generated manifests
+taller/manifests/manifest-*.json
+
 # Node (manifest-editor build artifacts already committed, but ignore dev stuff)
 node_modules/
 .turbo/
